@@ -63,8 +63,38 @@
 <p>This brings me to another thing... cross-compiling is a bit of a maze. Now I built for Haiku, which has excellent support for <a href="https://www.haiku-os.org/guides/building">cross-compiling</a> the whole OS on platforms like Mac OS X, Linux and FreeBSD. That means that a GCC cross-compiler is built, as well as important libraries and glue code that is needed to create native binaries.</p>
 
 <blockquote>
-<p>NOTE: it is absolutely important that you understand that the target platform is itself cross compilable. You cannot cross-compile in a vacuum.</p>
+<p>NOTE: it is absolutely important that you understand that your target platform is itself cross compilable from your build platform. You cannot cross-compile for another platform without a cross-compiling toolchain and important OS glue code.</p>
 </blockquote>
+
+<h2>
+<a id="step-1-creating-a-cross-compiler" class="anchor" href="#step-1-creating-a-cross-compiler" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1: creating a cross-compiler</h2>
+
+<p>When cross-compiling, you always deal with three things:</p>
+
+<ul>
+<li>the build platform where you build your tools</li>
+<li>the host platform which will run your compiled code</li>
+<li>the target platform that the binary on the host platform will generate code for.</li>
+</ul>
+
+<p>While in theory all three platforms can be different, in this (and most) cases one will build and run (host) <em>rustc</em> on a single platform. </p>
+
+<p>Remember: the goal is to create a cross-compiler that will be able to create binaries for the <code>i686-unknown-haiku</code> platform. That makes our configuration as follows:</p>
+
+<pre><code>CFG_BUILD            := x86_64-apple-darwin
+CFG_HOST             := x86_64-apple-darwin
+CFG_TARGET           := x86_64-apple-darwin i686-unknown-haiku
+</code></pre>
+
+<h3>
+<a id="step-11-building-haiku" class="anchor" href="#step-11-building-haiku" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1.1: building Haiku</h3>
+
+<p>The first thing you should do is make sure you have compiled Haiku, with a GCC 4 compiler. The latter is important since Haiku in principle is built with GCC2. So the best point to get started is to configure the Haiku build, and run it to create at least a basic image so that some of the base libraries (like libroot.so) is ready. </p>
+
+<h3>
+<a id="step-12-preparing-the-compiler" class="anchor" href="#step-12-preparing-the-compiler" aria-hidden="true"><span class="octicon octicon-link"></span></a>Step 1.2: preparing the compiler</h3>
+
+<p>So let's say we built Haiku on a location we call <code>$(HAIKU_BUILD_PATH)</code>. Within the </p>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/nielx">nielx</a></p>
