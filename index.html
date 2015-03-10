@@ -39,15 +39,32 @@
         <ul></ul>
       </nav>
       <section>
-        <h2>
-<a id="welcome-to-rust-for-haiku" class="anchor" href="#welcome-to-rust-for-haiku" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Rust for Haiku</h2>
+        <h1>
+<a id="welcome-to-rust-for-haiku" class="anchor" href="#welcome-to-rust-for-haiku" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to Rust for Haiku</h1>
 
 <p>I have worked on a port of <a href="http://rust-lang.org">Rust</a> to the <a href="http://www.haiku-os.org">Haiku</a> operating system. Rust is a fast and safe programming language. And Haiku is an open source operating system that targets desktop computers.</p>
 
-<h2>
-<a id="notes-about-porting" class="anchor" href="#notes-about-porting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes about porting</h2>
+<h1>
+<a id="notes-about-porting" class="anchor" href="#notes-about-porting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes about porting</h1>
 
 <p>This is the nerdy stuff, so if you just want to install the rust compiler, please skip this.  </p>
+
+<h2>
+<a id="what-you-should-know-in-advance" class="anchor" href="#what-you-should-know-in-advance" aria-hidden="true"><span class="octicon octicon-link"></span></a>What you should know in advance</h2>
+
+<p>The rust compiler (rustc) is written in rust. That means that it requires a prebuilt rust compiler to compile the source. This means that in case you want to port Rust to another platform, you will always have to start off by creating an initial (or: stage0) compiler for the new platform. </p>
+
+<p>The basic steps are:
+1. On the supported build platform, create a cross-compiler that can generate binaries for the Haiku platform.
+2. Using this cross-compiler, create a native compiler for Haiku.</p>
+
+<p>In my case the host platform was Mac OS X Yosemite, but it should work on any platform that supports building Rust and building Haiku.</p>
+
+<p>This brings me to another thing... cross-compiling is a bit of a maze. Now I built for Haiku, which has excellent support for <a href="https://www.haiku-os.org/guides/building">cross-compiling</a> the whole OS on platforms like Mac OS X, Linux and FreeBSD. That means that a GCC cross-compiler is built, as well as important libraries and glue code that is needed to create native binaries.</p>
+
+<blockquote>
+<p>NOTE: it is absolutely important that you understand that the target platform is itself cross compilable. You cannot cross-compile in a vacuum.</p>
+</blockquote>
       </section>
       <footer>
         <p>Project maintained by <a href="https://github.com/nielx">nielx</a></p>
